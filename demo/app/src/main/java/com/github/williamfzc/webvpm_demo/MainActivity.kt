@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.github.williamfzc.webvpm.WvpmAPI
+import com.github.williamfzc.webvpm.*
+import com.github.williamfzc.webvpm.js.WvpmJsFlag
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 //        mWebview.loadUrl(url)
 
         // if we already have a client
-        mWebview.webViewClient = object: WebViewClient() {
+        mWebview.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 Log.d(TAG, "origin page finished!")
@@ -34,5 +35,12 @@ class MainActivity : AppCompatActivity() {
 
         WvpmAPI.wrapWebview(mWebview, ::callback)
         mWebview.loadUrl(url)
+
+        fun execCallback(jsRet: String) {
+            Log.d(TAG, "execCallback: get js return in activity: $jsRet")
+        }
+
+        Log.d(TAG, "execute js: ${WvpmJsFlag.FLAG_JS_PERF}")
+        WvpmAPI.getPerfTiming(mWebview, ::execCallback)
     }
 }

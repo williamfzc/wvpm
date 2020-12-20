@@ -17,7 +17,6 @@ object WvpmInject {
             it.domStorageEnabled = true
         }
 
-
         Log.d(TAG, "injecting webview client ...")
         // client
         val originPageFinished = wv.webViewClient::onPageFinished
