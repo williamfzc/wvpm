@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "get js return in activity: $jsRet")
         }
 
-        WvpmAPI.wrapWebview(mWebview, ::callback)
+        WvpmAPI.inject(mWebview, WvpmJsFlag.FLAG_JS_PERF, ::callback)
         mWebview.loadUrl(url)
 
         fun execCallback(jsRet: String) {
