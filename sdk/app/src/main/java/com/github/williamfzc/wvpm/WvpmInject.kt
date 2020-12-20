@@ -1,8 +1,8 @@
-package com.github.williamfzc.webvpm
+package com.github.williamfzc.wvpm
 
 import android.util.Log
 import android.webkit.WebView
-import com.github.williamfzc.webvpm.js.WvpmJsFlag
+import com.github.williamfzc.wvpm.js.WvpmJsFlag
 
 
 object WvpmInject {
@@ -11,7 +11,7 @@ object WvpmInject {
     fun inject(wv: WebView, targetJs: WvpmJsFlag, callback: ((String) -> Unit)?) {
         Log.d(TAG, "injecting settings ...")
         // settings
-        wv.settings?.let {
+        wv.settings.let {
             // collect data via js
             @SuppressWarnings
             it.javaScriptEnabled = true

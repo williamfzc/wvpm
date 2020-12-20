@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.github.williamfzc.webvpm.*
-import com.github.williamfzc.webvpm.js.WvpmJsFlag
+import com.github.williamfzc.wvpm.*
+import com.github.williamfzc.wvpm.js.WvpmJsFlag
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

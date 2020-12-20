@@ -1,4 +1,4 @@
-package com.github.williamfzc.webvpm.js
+package com.github.williamfzc.wvpm.js
 
 import android.content.Context
 import android.util.Log
@@ -24,7 +24,7 @@ abstract class WvpmJsContent(path: String, ctx: Context?) {
     }
 }
 
-class PerfWvpmJsContent(path: String = "perf.js", ctx: Context?) : WvpmJsContent(path, ctx) {
+class PerfWvpmJsContent(path: String = "wvpm_js/perf.js", ctx: Context?) : WvpmJsContent(path, ctx) {
     override val TAG: String
         get() = "PerfWvpmJsContent"
 }

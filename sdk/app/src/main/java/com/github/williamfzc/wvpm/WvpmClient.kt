@@ -1,8 +1,8 @@
-package com.github.williamfzc.webvpm
+package com.github.williamfzc.wvpm
 
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.github.williamfzc.webvpm.js.WvpmJsFlag
+import com.github.williamfzc.wvpm.js.WvpmJsFlag
 
 open class WvpmClient : WebViewClient() {
     // by default

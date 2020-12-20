@@ -1,4 +1,4 @@
-package com.github.williamfzc.webvpm.js
+package com.github.williamfzc.wvpm.js
 
 import android.content.Context
 import android.util.Log
@@ -6,7 +6,7 @@ import android.webkit.ValueCallback
 import android.webkit.WebView
 
 
-enum class WvpmJsFlag {
+public enum class WvpmJsFlag {
     FLAG_JS_PERF
 }
 

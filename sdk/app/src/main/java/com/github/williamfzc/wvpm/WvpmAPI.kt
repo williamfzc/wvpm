@@ -1,12 +1,12 @@
-package com.github.williamfzc.webvpm
+package com.github.williamfzc.wvpm
 
 import android.os.Build
 import android.util.Log
 import android.webkit.WebView
-import com.github.williamfzc.webvpm.js.WvpmJsFlag
-import com.github.williamfzc.webvpm.js.WvpmJsManager
+import com.github.williamfzc.wvpm.js.WvpmJsFlag
+import com.github.williamfzc.wvpm.js.WvpmJsManager
 
-object WvpmAPI {
+public object WvpmAPI {
     private val TAG = "WvpmAPI"
 
     fun inject(wv: WebView?, targetJs: WvpmJsFlag, callback: ((String) -> Unit)? = null) {
