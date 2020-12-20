@@ -27,7 +27,12 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "origin page finished!")
             }
         }
-        WvpmAPI.wrapWebview(mWebview)
+
+        fun callback(jsRet: String) {
+            Log.d(TAG, "get js return in activity: $jsRet")
+        }
+
+        WvpmAPI.wrapWebview(mWebview, ::callback)
         mWebview.loadUrl(url)
     }
 }

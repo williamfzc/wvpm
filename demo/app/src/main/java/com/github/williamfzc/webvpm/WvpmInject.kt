@@ -2,12 +2,12 @@ package com.github.williamfzc.webvpm
 
 import android.util.Log
 import android.webkit.WebView
-import android.webkit.WebViewClient
+
 
 object WvpmInject {
     private val TAG = "WvpmInject"
 
-    fun inject(wv: WebView) {
+    fun inject(wv: WebView, callback: ((String) -> Unit)?) {
         Log.d(TAG, "injecting settings ...")
         // settings
         wv.settings?.let {
@@ -21,19 +21,21 @@ object WvpmInject {
         Log.d(TAG, "injecting webview client ...")
         // client
         val originPageFinished = wv.webViewClient::onPageFinished
-        wv.webViewClient = object : WebViewClient() {
+        wv.webViewClient = object : WvpmClient() {
+            override fun callback(jsReturn: String) {
+                callback?.run {
+                    callback(jsReturn)
+                } ?: run {
+                    super.callback(jsReturn)
+                }
+            }
+
             override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
                 // some webviews may have their own clients
                 originPageFinished.invoke(view, url)
-
-                // inject main contents
-                applyWhenFinished(view, url)
             }
         }
         Log.d(TAG, "inject finished")
-    }
-
-    private fun applyWhenFinished(view: WebView?, url: String?) {
-        Log.d(TAG, "now page finished: $view, $url")
     }
 }
