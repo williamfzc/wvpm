@@ -7,7 +7,7 @@ import com.github.williamfzc.wvpm.js.WvpmJsFlag
 open class WvpmClient(
     private val originClient: WebViewClient?,
     private val targetJs: WvpmJsFlag,
-    private val callback: ((String) -> Unit)?
+    private val callback: WvpmCallback?
 ) : WebViewClient() {
     override fun shouldOverrideUrlLoading(view: WebView?, url: String): Boolean {
         originClient?.run {
@@ -18,12 +18,12 @@ open class WvpmClient(
     }
 
     override fun onPageFinished(view: WebView?, url: String?) {
+        originClient?.run {
+            this.onPageFinished(view, url)
+        } ?: run {
+            super.onPageFinished(view, url)
+        }
         // inject main contents
         WvpmCore.applyWhenFinished(view, url, targetJs, callback)
-        originClient?.run {
-            return this.onPageFinished(view, url)
-        } ?: run {
-            return super.onPageFinished(view, url)
-        }
     }
 }

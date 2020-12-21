@@ -9,7 +9,7 @@ import com.github.williamfzc.wvpm.js.WvpmJsManager
 public object WvpmAPI {
     private val TAG = "WvpmAPI"
 
-    fun inject(wv: WebView?, targetJs: WvpmJsFlag, callback: ((String) -> Unit)? = null) {
+    fun inject(wv: WebView?, targetJs: WvpmJsFlag, callback: WvpmCallback? = null) {
         // required api 26 at least. see:
         // https://developer.android.com/reference/android/webkit/WebView#getWebViewClient()
         // https://github.com/didi/DoraemonKit/blob/master/Android/java/doraemonkit/src/main/java/com/didichuxing/doraemonkit/aop/WebViewHook.java
@@ -21,7 +21,7 @@ public object WvpmAPI {
             Log.w(TAG, "wvpm can not be used under api version 26")
     }
 
-    fun execInside(wv: WebView?, targetJs: WvpmJsFlag, callback: ((String) -> Unit)? = null) {
+    fun execInside(wv: WebView?, targetJs: WvpmJsFlag, callback: WvpmCallback? = null) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             wv?.run {
                 WvpmJsManager.eval(this, targetJs, callback)
@@ -30,7 +30,7 @@ public object WvpmAPI {
             Log.w(TAG, "wvpm can not be used under api version 26")
     }
 
-    fun getPerfTiming(wv: WebView?, callback: ((String) -> Unit)?) {
+    fun getPerfTiming(wv: WebView?, callback: WvpmCallback?) {
         execInside(wv, WvpmJsFlag.FLAG_JS_PERF, callback)
     }
 }

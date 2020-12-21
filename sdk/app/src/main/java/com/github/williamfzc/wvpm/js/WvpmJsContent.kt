@@ -24,7 +24,8 @@ abstract class WvpmJsContent(path: String, ctx: Context?) {
     }
 }
 
-class PerfWvpmJsContent(path: String = "wvpm_js/perf.js", ctx: Context?) : WvpmJsContent(path, ctx) {
+class PerfWvpmJsContent(path: String = "wvpm_js/perf.js", ctx: Context?) :
+    WvpmJsContent(path, ctx) {
     override val TAG: String
         get() = "PerfWvpmJsContent"
 }

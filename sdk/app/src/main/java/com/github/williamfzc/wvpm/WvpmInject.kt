@@ -11,7 +11,7 @@ object WvpmInject {
     private val TAG = "WvpmInject"
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun inject(wv: WebView, targetJs: WvpmJsFlag, callback: ((String) -> Unit)?) {
+    fun inject(wv: WebView, targetJs: WvpmJsFlag, callback: WvpmCallback?) {
         Log.d(TAG, "injecting settings ...")
         // settings
         wv.settings.let {
