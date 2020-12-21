@@ -30,18 +30,6 @@ object WvpmJsManager {
         }
     }
 
-    fun eval(wv: WebView, callback: ((String) -> Unit)?) {
-        for (each in jsMap.keys) {
-            each.run {
-                eval(
-                    wv,
-                    this,
-                    callback
-                )
-            }
-        }
-    }
-
     private fun initInst(ctx: Context?): WvpmJsManager? {
         jsMap[WvpmJsFlag.FLAG_JS_PERF] =
             PerfWvpmJsContent(ctx = ctx)
