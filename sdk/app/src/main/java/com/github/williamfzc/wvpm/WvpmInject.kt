@@ -4,13 +4,6 @@ import android.os.Build
 import android.util.Log
 import android.webkit.WebView
 import androidx.annotation.RequiresApi
-import com.github.williamfzc.wvpm.js.WvpmJsFlag
-
-
-public enum class WvpmInjectLocation {
-    FLAG_ON_PAGE_FINISHED,
-    FLAG_ON_PAGE_STARTED,
-}
 
 
 object WvpmInject {
@@ -28,29 +21,25 @@ object WvpmInject {
     @RequiresApi(Build.VERSION_CODES.O)
     fun injectHooks(
         wv: WebView,
-        targetJs: WvpmJsFlag,
-        callback: WvpmCallback?,
-        location: WvpmInjectLocation
+        task: WvpmTask
     ) {
         // inject custom hooks
         wv.webViewClient = WvpmClient(
             wv.webViewClient,
-            mapOf(location to listOf(WvpmTask(targetJs, callback)))
+            mapOf(task.location to listOf(task))
         )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun inject(
         wv: WebView,
-        targetJs: WvpmJsFlag,
-        callback: WvpmCallback?,
-        location: WvpmInjectLocation
+        task: WvpmTask
     ) {
         Log.d(TAG, "injecting settings ...")
         injectSettings(wv)
 
         Log.d(TAG, "injecting webview client ...")
-        injectHooks(wv, targetJs, callback, location)
+        injectHooks(wv, task)
 
         Log.d(TAG, "inject finished")
     }

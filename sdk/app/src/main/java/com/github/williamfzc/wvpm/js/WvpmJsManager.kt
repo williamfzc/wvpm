@@ -5,12 +5,8 @@ import android.util.Log
 import android.webkit.ValueCallback
 import android.webkit.WebView
 import com.github.williamfzc.wvpm.WvpmCallback
+import com.github.williamfzc.wvpm.WvpmJsFlag
 import com.github.williamfzc.wvpm.WvpmResponse
-
-
-public enum class WvpmJsFlag {
-    FLAG_JS_PERF
-}
 
 
 object WvpmJsManager {

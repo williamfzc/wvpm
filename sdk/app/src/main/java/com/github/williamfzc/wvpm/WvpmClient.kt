@@ -8,12 +8,12 @@ import android.util.Log
 import android.view.KeyEvent
 import android.webkit.*
 import androidx.annotation.RequiresApi
-import com.github.williamfzc.wvpm.js.WvpmJsFlag
+
+@Target(AnnotationTarget.FUNCTION)
+annotation class WvpmClientHook
 
 
-data class WvpmTask(val jsFlag: WvpmJsFlag, val callback: WvpmCallback?)
-
-open class WvpmClient(
+class WvpmClient(
     private val originClient: WebViewClient?,
     private val hooks: Map<WvpmInjectLocation, List<WvpmTask>> = mapOf()
 ) : WebViewClient() {
@@ -39,7 +39,7 @@ open class WvpmClient(
         Log.d(TAG, "hooks: ${this.mHooks}")
     }
 
-    // some special hooks
+    @WvpmClientHook
     override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
         originClient?.apply {
             this.onPageStarted(view, url, favicon)
@@ -49,11 +49,11 @@ open class WvpmClient(
 
         // hooks
         mHooks[WvpmInjectLocation.FLAG_ON_PAGE_STARTED]?.let {
-            for (each in it)
-                WvpmCore.apply(view, url, each.jsFlag, each.callback)
+            WvpmCore.applyTask(view, url, it)
         }
     }
 
+    @WvpmClientHook
     override fun onPageFinished(view: WebView?, url: String?) {
         originClient?.apply {
             this.onPageFinished(view, url)
@@ -62,8 +62,7 @@ open class WvpmClient(
         }
         // hooks
         mHooks[WvpmInjectLocation.FLAG_ON_PAGE_FINISHED]?.let {
-            for (each in it)
-                WvpmCore.apply(view, url, each.jsFlag, each.callback)
+            WvpmCore.applyTask(view, url, it)
         }
     }
 
