@@ -4,13 +4,14 @@ import android.content.Context
 import android.util.Log
 import java.io.FileNotFoundException
 
-abstract class WvpmJsContent(path: String, ctx: Context?) {
+abstract class WvpmJsContent(private val path: String) {
     open val TAG = "WvpmJsContent"
+
     var content: String? = null
     val ready: Boolean
         get() = !this.content.isNullOrEmpty()
 
-    init {
+    fun initObject(ctx: Context?) {
         ctx?.let {
             try {
                 this.content = ctx.assets.open(path).readBytes().toString(Charsets.UTF_8)
@@ -24,8 +25,7 @@ abstract class WvpmJsContent(path: String, ctx: Context?) {
     }
 }
 
-class PerfWvpmJsContent(path: String = "wvpm_js/perf.js", ctx: Context?) :
-    WvpmJsContent(path, ctx) {
+object PerfWvpmJsContent: WvpmJsContent(path = "wvpm_js/perf.js") {
     override val TAG: String
         get() = "PerfWvpmJsContent"
 }
