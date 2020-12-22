@@ -1,12 +1,12 @@
 package com.github.williamfzc.webvpm_demo
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.github.williamfzc.wvpm.*
-import com.github.williamfzc.wvpm.js.WvpmJsFlag
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -40,11 +40,16 @@ class MainActivity : AppCompatActivity() {
         })
         mWebview.loadUrl(url)
 
-        fun execCallback(resp: WvpmResponse) {
-            Log.d(TAG, "execCallback: get js return in activity: ${resp.data}")
-        }
+//        fun execCallback(resp: WvpmResponse) {
+//            Log.d(TAG, "execCallback: get js return in activity: ${resp.data}")
+//        }
+//
+//        Log.d(TAG, "execute js: ${WvpmJsFlag.FLAG_JS_PERF}")
+//        WvpmAPI.getPerfTiming(mWebview, ::execCallback)
 
-        Log.d(TAG, "execute js: ${WvpmJsFlag.FLAG_JS_PERF}")
-        WvpmAPI.getPerfTiming(mWebview, ::execCallback)
+        button.setOnClickListener {
+            val intent = Intent(this, JavaActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
