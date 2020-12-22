@@ -1,6 +1,5 @@
 package com.github.williamfzc.wvpm
 
-import android.graphics.Bitmap
 import android.os.Build
 import android.util.Log
 import android.webkit.WebView
@@ -34,32 +33,10 @@ object WvpmInject {
         location: WvpmInjectLocation
     ) {
         // inject custom hooks
-        wv.webViewClient = object : WvpmClient(wv.webViewClient) {
-
-            // special hook after page finished
-            override fun onPageFinished(view: WebView?, url: String?) {
-                originClient?.run {
-                    this.onPageFinished(view, url)
-                } ?: run {
-                    super.onPageFinished(view, url)
-                }
-                // injection
-                if (location == WvpmInjectLocation.FLAG_ON_PAGE_FINISHED)
-                    WvpmCore.apply(view, url, targetJs, callback)
-            }
-
-            // special hook before page rendered
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                originClient?.run {
-                    this.onPageStarted(view, url, favicon)
-                } ?: run {
-                    super.onPageStarted(view, url, favicon)
-                }
-                // injection
-                if (location == WvpmInjectLocation.FLAG_ON_PAGE_STARTED)
-                    WvpmCore.apply(view, url, targetJs, callback)
-            }
-        }
+        wv.webViewClient = WvpmClient(
+            wv.webViewClient,
+            mapOf(location to listOf(WvpmTask(targetJs, callback)))
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

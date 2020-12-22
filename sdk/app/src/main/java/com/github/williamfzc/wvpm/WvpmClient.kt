@@ -4,14 +4,68 @@ import android.graphics.Bitmap
 import android.net.http.SslError
 import android.os.Build
 import android.os.Message
+import android.util.Log
 import android.view.KeyEvent
 import android.webkit.*
 import androidx.annotation.RequiresApi
+import com.github.williamfzc.wvpm.js.WvpmJsFlag
+
+
+data class WvpmTask(val jsFlag: WvpmJsFlag, val callback: WvpmCallback?)
 
 open class WvpmClient(
-    val originClient: WvpmClient?
+    private val originClient: WebViewClient?,
+    private val hooks: Map<WvpmInjectLocation, List<WvpmTask>> = mapOf()
 ) : WebViewClient() {
-    constructor(originClient: WebViewClient?): this(WvpmClient(originClient))
+    private val TAG = "WvpmClient"
+    private var mHooks: MutableMap<WvpmInjectLocation, MutableList<WvpmTask>> = mutableMapOf()
+
+    init {
+        originClient?.let {
+            if (it is WvpmClient) {
+                this.mHooks = it.mHooks
+                // avoid these hooks called recursively because of inherit
+                it.mHooks = mutableMapOf()
+            }
+        }
+
+        for ((k, v) in hooks) {
+            mHooks[k]?.run {
+                this.addAll(v)
+            } ?: also {
+                mHooks[k] = v.toMutableList()
+            }
+        }
+        Log.d(TAG, "hooks: ${this.mHooks}")
+    }
+
+    // some special hooks
+    override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+        originClient?.apply {
+            this.onPageStarted(view, url, favicon)
+        } ?: apply {
+            this.onPageStarted(view, url, favicon)
+        }
+
+        // hooks
+        mHooks[WvpmInjectLocation.FLAG_ON_PAGE_STARTED]?.let {
+            for (each in it)
+                WvpmCore.apply(view, url, each.jsFlag, each.callback)
+        }
+    }
+
+    override fun onPageFinished(view: WebView?, url: String?) {
+        originClient?.apply {
+            this.onPageFinished(view, url)
+        } ?: apply {
+            this.onPageFinished(view, url)
+        }
+        // hooks
+        mHooks[WvpmInjectLocation.FLAG_ON_PAGE_FINISHED]?.let {
+            for (each in it)
+                WvpmCore.apply(view, url, each.jsFlag, each.callback)
+        }
+    }
 
     // comes from doraemonkit, thanks:
     // https://github.com/didi/DoraemonKit/blob/master/Android/java/doraemonkit/src/main/java/com/didichuxing/doraemonkit/kit/h5_help/DokitWebViewClient.kt
@@ -35,20 +89,6 @@ open class WvpmClient(
             return originClient.onLoadResource(view, url)
         }
         super.onLoadResource(view, url)
-    }
-
-    override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-        if (originClient != null) {
-            return originClient.onPageStarted(view, url, favicon)
-        }
-        super.onPageStarted(view, url, favicon)
-    }
-
-    override fun onPageFinished(view: WebView?, url: String?) {
-        if (originClient != null) {
-            return originClient.onPageFinished(view, url)
-        }
-        super.onPageFinished(view, url)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

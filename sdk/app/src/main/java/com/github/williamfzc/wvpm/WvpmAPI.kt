@@ -9,6 +9,13 @@ import com.github.williamfzc.wvpm.js.WvpmJsManager
 public object WvpmAPI {
     private val TAG = "WvpmAPI"
 
+    // todo: refactor with task
+    fun inject(
+        wv: WebView?,
+        task: WvpmTask,
+        injectLocation: WvpmInjectLocation
+    ) = inject(wv, task.jsFlag, task.callback, injectLocation)
+
     fun inject(
         wv: WebView?,
         targetJs: WvpmJsFlag,

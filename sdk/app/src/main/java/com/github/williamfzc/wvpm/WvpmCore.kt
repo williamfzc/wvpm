@@ -10,8 +10,6 @@ object WvpmCore {
     private val TAG = "WvpmCore"
 
     fun apply(view: WebView?, url: String?, targetJs: WvpmJsFlag, callback: WvpmCallback?) {
-        Log.d(TAG, "page finished: $url")
-
         view?.run {
             WvpmJsManager.eval(this, targetJs, callback)
         }
