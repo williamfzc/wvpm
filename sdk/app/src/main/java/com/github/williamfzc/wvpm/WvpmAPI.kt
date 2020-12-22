@@ -52,5 +52,9 @@ public object WvpmAPI {
 
     @JvmStatic
     fun getPerfTiming(wv: WebView?, callback: WvpmCallback?) =
-        execInside(wv, WvpmJsFlag.FLAG_JS_PERF, callback)
+        execInside(wv, WvpmJsFlag.FLAG_JS_PERF_TIMING, callback)
+
+    @JvmStatic
+    fun getPerfNavigation(wv: WebView?, callback: WvpmCallback?) =
+        execInside(wv, WvpmJsFlag.FLAG_JS_PERF_NAVIGATION, callback)
 }

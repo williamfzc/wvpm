@@ -15,5 +15,6 @@ public enum class WvpmInjectLocation {
 }
 
 public enum class WvpmJsFlag {
-    FLAG_JS_PERF
+    FLAG_JS_PERF_TIMING,
+    FLAG_JS_PERF_NAVIGATION
 }

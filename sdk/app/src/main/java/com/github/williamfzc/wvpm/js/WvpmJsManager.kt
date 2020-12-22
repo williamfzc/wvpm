@@ -10,8 +10,9 @@ import com.github.williamfzc.wvpm.WvpmResponse
 
 object WvpmJsManager {
     private val TAG = "WvpmJsManager"
-    var jsContentMap = mapOf<WvpmJsFlag, WvpmJsContent>(
-        WvpmJsFlag.FLAG_JS_PERF to PerfWvpmJsContent
+    var jsContentMap = mapOf(
+        WvpmJsFlag.FLAG_JS_PERF_TIMING to WvpmJsPerfTiming,
+        WvpmJsFlag.FLAG_JS_PERF_NAVIGATION to WvpmJsPerfNavigation
     )
 
     fun eval(wv: WebView, targetJsFlag: WvpmJsFlag, callback: WvpmCallback?) {
