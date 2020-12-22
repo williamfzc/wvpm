@@ -29,11 +29,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        fun callback(resp: WvpmResponse) {
-            Log.d(TAG, "get js return in activity: ${resp.data}")
-        }
-
-        WvpmAPI.inject(mWebview, WvpmJsFlag.FLAG_JS_PERF, ::callback)
+        WvpmAPI.injectOnPageFinished(mWebview, WvpmJsFlag.FLAG_JS_PERF, fun(resp: WvpmResponse) {
+            Log.d(TAG, "get js return after page finished in activity: ${resp.data}")
+        })
+        WvpmAPI.injectOnPageFinished(mWebview, WvpmJsFlag.FLAG_JS_PERF, fun(resp: WvpmResponse) {
+            Log.d(TAG, "again: get js return after page finished in activity: ${resp.data}")
+        })
+        WvpmAPI.injectOnPageStarted(mWebview, WvpmJsFlag.FLAG_JS_PERF, fun(resp: WvpmResponse) {
+            Log.d(TAG, "get js return before page started in activity: ${resp.data}")
+        })
         mWebview.loadUrl(url)
 
         fun execCallback(resp: WvpmResponse) {
