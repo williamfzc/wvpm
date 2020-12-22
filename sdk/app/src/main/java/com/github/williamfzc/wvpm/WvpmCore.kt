@@ -9,7 +9,7 @@ import com.github.williamfzc.wvpm.js.WvpmJsManager
 object WvpmCore {
     private val TAG = "WvpmCore"
 
-    fun applyWhenFinished(view: WebView?, url: String?, targetJs: WvpmJsFlag, callback: WvpmCallback?) {
+    fun apply(view: WebView?, url: String?, targetJs: WvpmJsFlag, callback: WvpmCallback?) {
         Log.d(TAG, "page finished: $url")
 
         view?.run {

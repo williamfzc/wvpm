@@ -7,23 +7,11 @@ import android.os.Message
 import android.view.KeyEvent
 import android.webkit.*
 import androidx.annotation.RequiresApi
-import com.github.williamfzc.wvpm.js.WvpmJsFlag
 
 open class WvpmClient(
-    private val originClient: WebViewClient?,
-    private val targetJs: WvpmJsFlag,
-    private val callback: WvpmCallback?
+    val originClient: WvpmClient?
 ) : WebViewClient() {
-    // special hook after page finished
-    override fun onPageFinished(view: WebView?, url: String?) {
-        originClient?.run {
-            this.onPageFinished(view, url)
-        } ?: run {
-            super.onPageFinished(view, url)
-        }
-        // inject main contents
-        WvpmCore.applyWhenFinished(view, url, targetJs, callback)
-    }
+    constructor(originClient: WebViewClient?): this(WvpmClient(originClient))
 
     // comes from doraemonkit, thanks:
     // https://github.com/didi/DoraemonKit/blob/master/Android/java/doraemonkit/src/main/java/com/didichuxing/doraemonkit/kit/h5_help/DokitWebViewClient.kt
@@ -42,6 +30,13 @@ open class WvpmClient(
         return super.shouldInterceptRequest(view, url)
     }
 
+    override fun onLoadResource(view: WebView?, url: String?) {
+        if (originClient != null) {
+            return originClient.onLoadResource(view, url)
+        }
+        super.onLoadResource(view, url)
+    }
+
     override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
         if (originClient != null) {
             return originClient.onPageStarted(view, url, favicon)
@@ -49,11 +44,11 @@ open class WvpmClient(
         super.onPageStarted(view, url, favicon)
     }
 
-    override fun onLoadResource(view: WebView?, url: String?) {
+    override fun onPageFinished(view: WebView?, url: String?) {
         if (originClient != null) {
-            return originClient.onLoadResource(view, url)
+            return originClient.onPageFinished(view, url)
         }
-        super.onLoadResource(view, url)
+        super.onPageFinished(view, url)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

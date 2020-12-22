@@ -37,6 +37,7 @@ object WvpmJsManager {
     }
 
     private fun initInst(ctx: Context?): WvpmJsManager? {
+        // todo: weird design
         // init
         jsMap[WvpmJsFlag.FLAG_JS_PERF] =
             PerfWvpmJsContent(ctx = ctx)
