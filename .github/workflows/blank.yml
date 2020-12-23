@@ -26,4 +26,10 @@ jobs:
       - name: Build with Gradle
         run: |
           cd sdk
-          ./gradlew assemble
+          ./gradlew assembleDebug
+          cd ..
+          mkdir demo/app/libs
+          cp sdk/app/build/outputs/aar/*.aar demo/app/libs/
+          cd demo
+          ./gradlew assembleDebug
+
