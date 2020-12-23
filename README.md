@@ -33,6 +33,33 @@ Less brain fuck. Originally this tool was designed for working with apm systems.
 - Different kinds of webviews
 - Kotlin & Java usage
 
+## full example
+
+see [demo](./demo).
+
+## installation
+
+This repo uses [jitpack.io](jitpack.io).
+
+root gradle:
+
+```bash
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+app gradle:
+
+```bash
+dependencies {
+    implementation 'com.github.williamfzc:wvpm:0.1.0'
+}
+```
+
 ## Why not Jsbridge?
 
 Jsbridge is good in developping your own app. WVPM aims at debugging/test usage.
