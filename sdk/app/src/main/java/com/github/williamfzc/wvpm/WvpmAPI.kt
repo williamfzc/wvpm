@@ -5,7 +5,7 @@ import android.util.Log
 import android.webkit.WebView
 import com.github.williamfzc.wvpm.js.WvpmJsManager
 
-public object WvpmAPI {
+object WvpmAPI {
     private val TAG = "WvpmAPI"
 
     @JvmStatic
@@ -29,7 +29,7 @@ public object WvpmAPI {
         wv: WebView?,
         targetJs: WvpmJsFlagBase,
         callback: WvpmCallback? = null,
-        injectLocation: WvpmInjectLocation
+        injectLocation: WvpmInjectLocationBase
     ) = inject(wv, WvpmTask(injectLocation, targetJs, callback))
 
     @JvmStatic

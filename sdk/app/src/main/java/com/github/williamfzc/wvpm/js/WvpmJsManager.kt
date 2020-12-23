@@ -25,6 +25,8 @@ object WvpmJsManager {
         }
     }
 
+    fun removeJs(flag: WvpmJsFlagBase) = jsContentMap.remove(flag)
+
     fun eval(wv: WebView, targetJsFlag: WvpmJsFlagBase, callback: WvpmCallback?) {
         Log.d(TAG, "trying to eval: $targetJsFlag")
         jsContentMap[targetJsFlag]?.run {

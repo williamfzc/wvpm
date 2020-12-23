@@ -15,10 +15,10 @@ annotation class WvpmClientHook
 
 class WvpmClient(
     private val originClient: WebViewClient?,
-    private val hooks: Map<WvpmInjectLocation, List<WvpmTask>> = mapOf()
+    private val hooks: Map<WvpmInjectLocationBase, List<WvpmTask>> = mapOf()
 ) : WebViewClient() {
     private val TAG = "WvpmClient"
-    private var mHooks: MutableMap<WvpmInjectLocation, MutableList<WvpmTask>> = mutableMapOf()
+    private var mHooks: MutableMap<WvpmInjectLocationBase, MutableList<WvpmTask>> = mutableMapOf()
 
     init {
         originClient?.let {
