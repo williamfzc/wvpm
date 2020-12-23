@@ -1,20 +1,22 @@
 // these tasks should be exposed
 package com.github.williamfzc.wvpm
 
-public typealias WvpmCallback = (WvpmResponse) -> Unit
+typealias WvpmCallback = (WvpmResponse) -> Unit
 
-public data class WvpmTask(
+data class WvpmTask(
     val location: WvpmInjectLocation,
-    val jsFlag: WvpmJsFlag,
+    val jsFlag: WvpmJsFlagBase,
     val callback: WvpmCallback?
 )
 
-public enum class WvpmInjectLocation {
+enum class WvpmInjectLocation {
     FLAG_ON_PAGE_FINISHED,
     FLAG_ON_PAGE_STARTED,
 }
 
-public enum class WvpmJsFlag {
+interface WvpmJsFlagBase
+
+enum class WvpmJsFlag: WvpmJsFlagBase {
     FLAG_JS_PERF_TIMING,
     FLAG_JS_PERF_NAVIGATION
 }

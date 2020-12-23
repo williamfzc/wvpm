@@ -27,21 +27,29 @@ public object WvpmAPI {
     @JvmStatic
     fun inject(
         wv: WebView?,
-        targetJs: WvpmJsFlag,
+        targetJs: WvpmJsFlagBase,
         callback: WvpmCallback? = null,
         injectLocation: WvpmInjectLocation
     ) = inject(wv, WvpmTask(injectLocation, targetJs, callback))
 
     @JvmStatic
-    fun injectOnPageStarted(wv: WebView?, targetJs: WvpmJsFlag, callback: WvpmCallback? = null) =
+    fun injectOnPageStarted(
+        wv: WebView?,
+        targetJs: WvpmJsFlagBase,
+        callback: WvpmCallback? = null
+    ) =
         inject(wv, targetJs, callback, WvpmInjectLocation.FLAG_ON_PAGE_STARTED)
 
     @JvmStatic
-    fun injectOnPageFinished(wv: WebView?, targetJs: WvpmJsFlag, callback: WvpmCallback? = null) =
+    fun injectOnPageFinished(
+        wv: WebView?,
+        targetJs: WvpmJsFlagBase,
+        callback: WvpmCallback? = null
+    ) =
         inject(wv, targetJs, callback, WvpmInjectLocation.FLAG_ON_PAGE_FINISHED)
 
     @JvmStatic
-    fun execInside(wv: WebView?, targetJs: WvpmJsFlag, callback: WvpmCallback? = null) {
+    fun execInside(wv: WebView?, targetJs: WvpmJsFlagBase, callback: WvpmCallback? = null) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             wv?.run {
                 WvpmJsManager.eval(this, targetJs, callback)
