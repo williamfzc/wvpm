@@ -1,6 +1,6 @@
 # WVPM 
 
-An lightweight injector for webview in android, with kotlin.
+A lightweight injector for webview in android, with 100% kotlin.
 
 ## TL;DR
 
