@@ -23,15 +23,15 @@ public final class JavaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_java);
         wv = findViewById(R.id.mWebview1);
 
-        WvpmAPI.injectOnPageFinished(wv, WvpmJsFlag.FLAG_JS_PERF, (WvpmResponse resp) -> {
+        WvpmAPI.injectOnPageFinished(wv, WvpmJsFlag.FLAG_JS_PERF_TIMING, (WvpmResponse resp) -> {
             Log.d(TAG, "first page finished: " + resp.getData());
             return null;
         });
-        WvpmAPI.injectOnPageFinished(wv, WvpmJsFlag.FLAG_JS_PERF, (WvpmResponse resp) -> {
+        WvpmAPI.injectOnPageFinished(wv, WvpmJsFlag.FLAG_JS_PERF_NAVIGATION, (WvpmResponse resp) -> {
             Log.d(TAG, "second page finished: " + resp.getData());
             return null;
         });
-        WvpmAPI.injectOnPageStarted(wv, WvpmJsFlag.FLAG_JS_PERF, (WvpmResponse resp) -> {
+        WvpmAPI.injectOnPageStarted(wv, WvpmJsFlag.FLAG_JS_PERF_TIMING, (WvpmResponse resp) -> {
             Log.d(TAG, "before page started: " + resp.getData());
             return null;
         });

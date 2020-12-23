@@ -7,11 +7,17 @@ import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.github.williamfzc.wvpm.*
+import com.github.williamfzc.wvpm.js.WvpmJsContent
+import com.github.williamfzc.wvpm.js.WvpmJsManager
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
     private val url = "http://www.baidu.com"
+
+    // custom hook if you need
+    enum class MyJsFlag: WvpmJsFlagBase { FLAG_NEW }
+    val MyJsContent = object: WvpmJsContent(path = "perf.js") {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,13 +35,19 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        WvpmAPI.injectOnPageFinished(mWebview, WvpmJsFlag.FLAG_JS_PERF, fun(resp: WvpmResponse) {
+        // custom hook
+        WvpmJsManager.addJs(MyJsFlag.FLAG_NEW, MyJsContent)
+        WvpmAPI.injectOnPageFinished(mWebview, MyJsFlag.FLAG_NEW) {
+            Log.d(TAG, "custom js: ${it.data}")
+        }
+
+        WvpmAPI.injectOnPageFinished(mWebview, WvpmJsFlag.FLAG_JS_PERF_TIMING, fun(resp: WvpmResponse) {
             Log.d(TAG, "get js return after page finished in activity: ${resp.data}")
         })
-        WvpmAPI.injectOnPageFinished(mWebview, WvpmJsFlag.FLAG_JS_PERF, fun(resp: WvpmResponse) {
+        WvpmAPI.injectOnPageFinished(mWebview, WvpmJsFlag.FLAG_JS_PERF_NAVIGATION, fun(resp: WvpmResponse) {
             Log.d(TAG, "again: get js return after page finished in activity: ${resp.data}")
         })
-        WvpmAPI.injectOnPageStarted(mWebview, WvpmJsFlag.FLAG_JS_PERF, fun(resp: WvpmResponse) {
+        WvpmAPI.injectOnPageStarted(mWebview, WvpmJsFlag.FLAG_JS_PERF_TIMING, fun(resp: WvpmResponse) {
             Log.d(TAG, "get js return before page started in activity: ${resp.data}")
         })
         mWebview.loadUrl(url)
