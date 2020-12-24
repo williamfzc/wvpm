@@ -13,7 +13,8 @@ object WvpmJsManager {
     private val TAG = "WvpmJsManager"
     private var jsContentMap = mutableMapOf<WvpmJsFlagBase, WvpmJsContent>(
         WvpmJsFlag.FLAG_JS_PERF_TIMING to WvpmJsPerfTiming,
-        WvpmJsFlag.FLAG_JS_PERF_NAVIGATION to WvpmJsPerfNavigation
+        WvpmJsFlag.FLAG_JS_PERF_NAVIGATION to WvpmJsPerfNavigation,
+        WvpmJsFlag.FLAG_JS_DEBUG_SAY_HI to WvpmJsDebugSayHi
     )
 
     fun addJs(flag: WvpmJsFlagBase, targetJsContent: WvpmJsContent) {
