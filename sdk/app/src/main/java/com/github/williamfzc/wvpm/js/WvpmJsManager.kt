@@ -38,11 +38,12 @@ object WvpmJsManager {
     }
 
     fun eval(wv: WebView, targetJsRaw: String?, callback: WvpmCallback?) {
-        callback?.let {
-            wv.evaluateJavascript(targetJsRaw.orEmpty(), ValueCallback {
-                Log.d(TAG, "get response: $it")
+        wv.evaluateJavascript(targetJsRaw.orEmpty(), ValueCallback {
+            Log.d(TAG, "get response: $it")
+            // todo move callback to core for task management
+            callback?.run {
                 return@ValueCallback callback(WvpmResponse(it))
-            })
-        }
+            }
+        })
     }
 }
