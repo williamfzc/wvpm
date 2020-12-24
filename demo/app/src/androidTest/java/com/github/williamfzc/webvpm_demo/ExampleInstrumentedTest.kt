@@ -1,13 +1,13 @@
 package com.github.williamfzc.webvpm_demo
 
 import android.util.Log
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Test
 import org.junit.runner.RunWith
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.williamfzc.wvpm.WvpmAPI
 import com.github.williamfzc.wvpm.WvpmJsFlag
 import com.github.williamfzc.wvpm.WvpmJsFlagBase
@@ -17,11 +17,6 @@ import com.github.williamfzc.wvpm.js.WvpmJsManager
 
 import org.junit.Before
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
     lateinit var targetWebview: WebView
@@ -52,8 +47,8 @@ class ExampleInstrumentedTest {
             }
 
             // custom hook
-            WvpmJsManager.addJs(MainActivity.MyJsFlag.FLAG_NEW, MyJsContent)
-            WvpmAPI.injectOnPageFinished(targetWebview, MainActivity.MyJsFlag.FLAG_NEW) {
+            WvpmJsManager.addJs(MyJsFlag.FLAG_NEW, MyJsContent)
+            WvpmAPI.injectOnPageFinished(targetWebview, MyJsFlag.FLAG_NEW) {
                 Log.d(TAG, "custom js: ${it.data}")
             }
 
@@ -77,8 +72,24 @@ class ExampleInstrumentedTest {
                 })
             targetWebview.loadUrl(URL)
 
-            // wait for callback finished
-            Thread.sleep(5000)
+            WvpmAPI.execInside(
+                targetWebview,
+                WvpmJsFlag.FLAG_JS_DEBUG_SAY_HI,
+                fun(resp: WvpmResponse) {
+                    Log.d(TAG, "exec inside: ${resp.data}")
+                }
+            )
+            WvpmAPI.execInside(
+                targetWebview,
+                WvpmJsFlag.FLAG_JS_DEBUG_SAY_HI
+            )
+
+            WvpmAPI.execInside(
+                targetWebview,
+                WvpmJsFlag.FLAG_JS_DEBUG_FORMAT,
+                jsArgs = arrayOf("here is case")
+            )
         }
+        Thread.sleep(8000)
     }
 }
