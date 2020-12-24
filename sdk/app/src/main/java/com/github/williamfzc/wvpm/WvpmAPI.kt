@@ -49,10 +49,10 @@ object WvpmAPI {
         inject(wv, targetJs, callback, WvpmInjectLocation.FLAG_ON_PAGE_FINISHED)
 
     @JvmStatic
-    fun execInside(wv: WebView?, targetJs: WvpmJsFlagBase, callback: WvpmCallback? = null) {
+    fun execInside(wv: WebView?, targetJs: WvpmJsFlagBase, callback: WvpmCallback? = null, jsArgs: Array<String>? = null) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             wv?.run {
-                WvpmJsManager.eval(this, targetJs, callback)
+                WvpmJsManager.eval(this, targetJs, callback, jsArgs)
             }
         else
             Log.w(TAG, "wvpm can not be used under api version 26")

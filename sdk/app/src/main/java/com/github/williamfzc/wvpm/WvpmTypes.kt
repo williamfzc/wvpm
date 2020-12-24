@@ -1,12 +1,17 @@
 package com.github.williamfzc.wvpm
 
+import java.util.*
+
 internal typealias WvpmCallback = (WvpmResponse) -> Unit
 
-data class WvpmTask(
+class WvpmTask(
     val location: WvpmInjectLocationBase,
     val jsFlag: WvpmJsFlagBase,
-    val callback: WvpmCallback?
-)
+    val callback: WvpmCallback?,
+    val jsArgs: Array<String>? = null
+) {
+    val id = UUID.randomUUID()
+}
 
 interface WvpmInjectLocationBase
 
@@ -21,4 +26,5 @@ enum class WvpmJsFlag: WvpmJsFlagBase {
     FLAG_JS_PERF_TIMING,
     FLAG_JS_PERF_NAVIGATION,
     FLAG_JS_DEBUG_SAY_HI,
+    FLAG_JS_DEBUG_FORMAT,
 }

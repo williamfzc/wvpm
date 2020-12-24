@@ -11,7 +11,7 @@ internal object WvpmCore {
     fun applyTask(view: WebView?, url: String?, task: WvpmTask) {
         Log.d(TAG, "applying task on ${task.location}, ${task.jsFlag}, url: $url")
         view?.run {
-            WvpmJsManager.eval(this, task.jsFlag, task.callback)
+            WvpmJsManager.eval(this, task.jsFlag, task.callback, task.jsArgs)
         }
     }
 

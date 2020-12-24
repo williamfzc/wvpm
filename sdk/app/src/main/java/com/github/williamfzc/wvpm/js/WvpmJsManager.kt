@@ -12,9 +12,10 @@ import com.github.williamfzc.wvpm.WvpmResponse
 object WvpmJsManager {
     private val TAG = "WvpmJsManager"
     private var jsContentMap = mutableMapOf<WvpmJsFlagBase, WvpmJsContent>(
-        WvpmJsFlag.FLAG_JS_PERF_TIMING to WvpmJsPerfTiming,
-        WvpmJsFlag.FLAG_JS_PERF_NAVIGATION to WvpmJsPerfNavigation,
-        WvpmJsFlag.FLAG_JS_DEBUG_SAY_HI to WvpmJsDebugSayHi
+            WvpmJsFlag.FLAG_JS_PERF_TIMING to WvpmJsPerfTiming,
+            WvpmJsFlag.FLAG_JS_PERF_NAVIGATION to WvpmJsPerfNavigation,
+            WvpmJsFlag.FLAG_JS_DEBUG_SAY_HI to WvpmJsDebugSayHi,
+            WvpmJsFlag.FLAG_JS_DEBUG_FORMAT to WvpmJsDebugFormat
     )
 
     fun addJs(flag: WvpmJsFlagBase, targetJsContent: WvpmJsContent) {
@@ -28,12 +29,15 @@ object WvpmJsManager {
 
     fun removeJs(flag: WvpmJsFlagBase) = jsContentMap.remove(flag)
 
-    fun eval(wv: WebView, targetJsFlag: WvpmJsFlagBase, callback: WvpmCallback?) {
+    fun eval(wv: WebView, targetJsFlag: WvpmJsFlagBase, callback: WvpmCallback?, jsArgs: Array<String>?) {
         Log.d(TAG, "trying to eval: $targetJsFlag")
-        jsContentMap[targetJsFlag]?.run {
-            if (!this.ready)
-                this.initObject(wv.context)
-            eval(wv, this.content, callback)
+        jsContentMap[targetJsFlag]?.let {
+            if (!it.ready)
+                it.initObject(wv.context)
+            when (it) {
+                is WvpmJsContentNormal -> eval(wv, it.content, callback)
+                is WvpmJsContentNeedFormat -> eval(wv, it.formatContent(jsArgs), callback)
+            }
         }
     }
 

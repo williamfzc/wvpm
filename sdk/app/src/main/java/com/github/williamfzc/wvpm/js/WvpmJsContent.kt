@@ -5,8 +5,8 @@ import android.util.Log
 import java.io.FileNotFoundException
 
 abstract class WvpmJsContent(
-    private val path: String = "",
-    var content: String = ""
+        private val path: String = "",
+        open var content: String = ""
 ) {
     open val TAG = "WvpmJsContent"
 
@@ -31,17 +31,33 @@ abstract class WvpmJsContent(
     }
 }
 
-internal object WvpmJsPerfTiming : WvpmJsContent(path = "wvpm_js/timing.js") {
+abstract class WvpmJsContentNormal(path: String = "", content: String = "") : WvpmJsContent(path, content)
+
+abstract class WvpmJsContentNeedFormat(path: String = "", content: String = "") : WvpmJsContent(path, content) {
+    fun formatContent(jsArgs: Array<String>?): String {
+        // todo: kotlin does not have String template engine ..
+        if (jsArgs == null)
+            return content
+        return String.format(content, *jsArgs)
+    }
+}
+
+internal object WvpmJsPerfTiming : WvpmJsContentNormal(path = "wvpm_js/timing.js") {
     override val TAG: String
         get() = "WvpmJsPerfTiming"
 }
 
-internal object WvpmJsPerfNavigation : WvpmJsContent(path = "wvpm_js/navigation.js") {
+internal object WvpmJsPerfNavigation : WvpmJsContentNormal(path = "wvpm_js/navigation.js") {
     override val TAG: String
         get() = "WvpmJsPerfNavigation"
 }
 
-internal object WvpmJsDebugSayHi : WvpmJsContent(content = "console.log('hello world :)')") {
+internal object WvpmJsDebugSayHi : WvpmJsContentNormal(content = "console.log('hello world :)')") {
     override val TAG: String
         get() = "WvpmJsDebugSayHi"
+}
+
+internal object WvpmJsDebugFormat : WvpmJsContentNeedFormat(content = "console.log('%s :)')") {
+    override val TAG: String
+        get() = "WvpmJsDebugFormat"
 }
