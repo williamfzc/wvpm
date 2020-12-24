@@ -5,7 +5,7 @@ import android.webkit.WebView
 import com.github.williamfzc.wvpm.js.WvpmJsManager
 
 
-object WvpmCore {
+internal object WvpmCore {
     private val TAG = "WvpmCore"
 
     fun applyTask(view: WebView?, url: String?, task: WvpmTask) {

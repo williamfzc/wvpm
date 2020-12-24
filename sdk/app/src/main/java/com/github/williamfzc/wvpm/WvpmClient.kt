@@ -10,10 +10,10 @@ import android.webkit.*
 import androidx.annotation.RequiresApi
 
 @Target(AnnotationTarget.FUNCTION)
-annotation class WvpmClientHook
+internal annotation class WvpmClientHook
 
 
-class WvpmClient(
+internal class WvpmClient(
     private val originClient: WebViewClient?,
     private val hooks: Map<WvpmInjectLocationBase, List<WvpmTask>> = mapOf()
 ) : WebViewClient() {

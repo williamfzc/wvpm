@@ -25,12 +25,12 @@ abstract class WvpmJsContent(private val path: String) {
     }
 }
 
-object WvpmJsPerfTiming: WvpmJsContent(path = "wvpm_js/timing.js") {
+internal object WvpmJsPerfTiming: WvpmJsContent(path = "wvpm_js/timing.js") {
     override val TAG: String
         get() = "WvpmJsPerfTiming"
 }
 
-object WvpmJsPerfNavigation: WvpmJsContent(path = "wvpm_js/navigation.js") {
+internal object WvpmJsPerfNavigation: WvpmJsContent(path = "wvpm_js/navigation.js") {
     override val TAG: String
         get() = "WvpmJsPerfNavigation"
 }

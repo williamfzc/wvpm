@@ -1,7 +1,6 @@
-// these tasks should be exposed
 package com.github.williamfzc.wvpm
 
-typealias WvpmCallback = (WvpmResponse) -> Unit
+internal typealias WvpmCallback = (WvpmResponse) -> Unit
 
 data class WvpmTask(
     val location: WvpmInjectLocationBase,

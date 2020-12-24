@@ -6,7 +6,7 @@ import android.webkit.WebView
 import androidx.annotation.RequiresApi
 
 
-object WvpmInject {
+internal object WvpmInject {
     private val TAG = "WvpmInject"
 
     fun injectSettings(wv: WebView) {
