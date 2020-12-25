@@ -35,6 +35,7 @@ internal object WvpmInject {
         wv: WebView,
         task: WvpmTask
     ) {
+        Log.d(TAG, "inject task: ${task.jsFlag} to ${task.location}")
         Log.d(TAG, "injecting settings ...")
         injectSettings(wv)
 

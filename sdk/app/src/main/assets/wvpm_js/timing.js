@@ -1,1 +1,0 @@
-window.performance.timing.toJSON()

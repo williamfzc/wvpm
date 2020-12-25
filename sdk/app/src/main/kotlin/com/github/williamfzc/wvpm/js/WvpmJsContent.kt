@@ -42,14 +42,19 @@ abstract class WvpmJsContentNeedFormat(path: String = "", content: String = "") 
     }
 }
 
-internal object WvpmJsPerfTiming : WvpmJsContentNormal(path = "wvpm_js/timing.js") {
+internal object WvpmJsPerfTiming : WvpmJsContentNormal(content = "window.performance.timing.toJSON()") {
     override val TAG: String
         get() = "WvpmJsPerfTiming"
 }
 
-internal object WvpmJsPerfNavigation : WvpmJsContentNormal(path = "wvpm_js/navigation.js") {
+internal object WvpmJsPerfNavigation : WvpmJsContentNormal(content = "window.performance.navigation.toJSON()") {
     override val TAG: String
         get() = "WvpmJsPerfNavigation"
+}
+
+internal object WvpmJsPerfFps : WvpmJsContentNeedFormat(path = "wvpm_js/perf_fps.js") {
+    override val TAG: String
+        get() = "WvpmJsPerfFps"
 }
 
 internal object WvpmJsDebugSayHi : WvpmJsContentNormal(content = "console.log('hello world :)')") {

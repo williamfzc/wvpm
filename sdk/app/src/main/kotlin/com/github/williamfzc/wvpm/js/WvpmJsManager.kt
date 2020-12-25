@@ -14,6 +14,7 @@ object WvpmJsManager {
     private var jsContentMap = mutableMapOf<WvpmJsFlagBase, WvpmJsContent>(
             WvpmJsFlag.FLAG_JS_PERF_TIMING to WvpmJsPerfTiming,
             WvpmJsFlag.FLAG_JS_PERF_NAVIGATION to WvpmJsPerfNavigation,
+            WvpmJsFlag.FLAG_JS_PERF_FPS to WvpmJsPerfFps,
             WvpmJsFlag.FLAG_JS_DEBUG_SAY_HI to WvpmJsDebugSayHi,
             WvpmJsFlag.FLAG_JS_DEBUG_FORMAT to WvpmJsDebugFormat
     )

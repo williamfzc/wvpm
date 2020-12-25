@@ -70,6 +70,13 @@ class ExampleInstrumentedTest {
                 fun(resp: WvpmResponse) {
                     Log.d(TAG, "get js return before page started in activity: ${resp.data}")
                 })
+            WvpmAPI.injectOnPageStarted(
+                targetWebview,
+                WvpmJsFlag.FLAG_JS_PERF_FPS,
+                fun(resp: WvpmResponse) {
+                    Log.d(TAG, "get fps: ${resp.data}")
+                }
+            )
             targetWebview.loadUrl(URL)
 
             WvpmAPI.execInside(
@@ -90,6 +97,6 @@ class ExampleInstrumentedTest {
                 jsArgs = arrayOf("here is case")
             )
         }
-        Thread.sleep(8000)
+        Thread.sleep(10000)
     }
 }

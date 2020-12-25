@@ -5,7 +5,7 @@ import android.util.Log
 import android.webkit.WebView
 import com.github.williamfzc.wvpm.js.WvpmJsManager
 
-object WvpmAPI {
+public object WvpmAPI {
     private val TAG = "WvpmAPI"
 
     @JvmStatic
