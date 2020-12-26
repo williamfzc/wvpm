@@ -3,20 +3,18 @@ package com.github.williamfzc.wvpm.js
 import android.util.Log
 import android.webkit.ValueCallback
 import android.webkit.WebView
+import com.github.williamfzc.wvpm.*
 import com.github.williamfzc.wvpm.WvpmCallback
-import com.github.williamfzc.wvpm.WvpmJsFlag
-import com.github.williamfzc.wvpm.WvpmJsFlagBase
-import com.github.williamfzc.wvpm.WvpmResponse
 
 
 object WvpmJsManager {
     private val TAG = "WvpmJsManager"
     private var jsContentMap = mutableMapOf<WvpmJsFlagBase, WvpmJsContent>(
-            WvpmJsFlag.FLAG_JS_PERF_TIMING to WvpmJsPerfTiming,
-            WvpmJsFlag.FLAG_JS_PERF_NAVIGATION to WvpmJsPerfNavigation,
-            WvpmJsFlag.FLAG_JS_PERF_FPS to WvpmJsPerfFps,
-            WvpmJsFlag.FLAG_JS_DEBUG_SAY_HI to WvpmJsDebugSayHi,
-            WvpmJsFlag.FLAG_JS_DEBUG_FORMAT to WvpmJsDebugFormat
+        WvpmJsFlag.FLAG_JS_PERF_TIMING to WvpmJsPerfTiming,
+        WvpmJsFlag.FLAG_JS_PERF_NAVIGATION to WvpmJsPerfNavigation,
+        WvpmJsFlag.FLAG_JS_DEBUG_SAY_HI to WvpmJsDebugSayHi,
+        WvpmJsFlag.FLAG_JS_DEBUG_FORMAT to WvpmJsDebugFormat,
+        WvpmJsInterfaceFlag.FLAG_JS_PERF_FPS to WvpmJsPerfFps
     )
 
     fun addJs(flag: WvpmJsFlagBase, targetJsContent: WvpmJsContent) {
@@ -30,25 +28,27 @@ object WvpmJsManager {
 
     fun removeJs(flag: WvpmJsFlagBase) = jsContentMap.remove(flag)
 
-    fun eval(wv: WebView, targetJsFlag: WvpmJsFlagBase, callback: WvpmCallback?, jsArgs: Array<String>?) {
-        Log.d(TAG, "trying to eval: $targetJsFlag")
-        jsContentMap[targetJsFlag]?.let {
+    fun eval(wv: WebView, task: WvpmTask) {
+        Log.d(TAG, "trying to eval: ${task.jsFlag}")
+        jsContentMap[task.jsFlag]?.let {
             if (!it.ready)
                 it.initObject(wv.context)
             when (it) {
-                is WvpmJsContentNormal -> eval(wv, it.content, callback)
-                is WvpmJsContentNeedFormat -> eval(wv, it.formatContent(jsArgs), callback)
+                is WvpmJsContentNormal -> eval(wv, task, it.content)
+                is WvpmJsContentNeedFormat -> eval(wv, task, it.formatContent(task.jsArgs))
             }
         }
     }
 
-    fun eval(wv: WebView, targetJsRaw: String?, callback: WvpmCallback?) {
-        wv.evaluateJavascript(targetJsRaw.orEmpty(), ValueCallback {
-            Log.d(TAG, "get response: $it")
-            // todo move callback to core for task management
-            callback?.run {
-                return@ValueCallback callback(WvpmResponse(it))
-            }
+    private fun eval(wv: WebView, task: WvpmTask, targetJsRaw: String?) {
+        Log.d(TAG, "eval task: ${task.id}")
+        wv.evaluateJavascript(wrapJs(task.id, targetJsRaw.orEmpty()), ValueCallback {
+            Log.d(TAG, "get response from evaluateJs callback: $it")
+            return@ValueCallback task.applyCallback(WvpmCallbackLocation.FLAG_CB_LOCATION_ANDROID, it)
         })
+    }
+
+    private fun wrapJs(taskId: String, originJs: String): String {
+        return "(function() { let taskId = '$taskId';\n ${originJs}})();"
     }
 }

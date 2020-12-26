@@ -4,6 +4,7 @@ import android.os.Build
 import android.util.Log
 import android.webkit.WebView
 import androidx.annotation.RequiresApi
+import com.github.williamfzc.wvpm.js.WvpmJsInterface
 
 
 internal object WvpmInject {
@@ -23,6 +24,11 @@ internal object WvpmInject {
         wv: WebView,
         task: WvpmTask
     ) {
+        // inject js interface, must before loadUrl
+        // see: https://developer.android.com/reference/android/webkit/WebView#addJavascriptInterface(java.lang.Object,%20java.lang.String)
+        if (task.jsFlag is WvpmJsInterfaceFlag)
+            wv.addJavascriptInterface(WvpmJsInterface, WvpmJsInterface.JS_OBJECT_NAME)
+
         // inject custom hooks
         wv.webViewClient = WvpmClient(
             wv.webViewClient,

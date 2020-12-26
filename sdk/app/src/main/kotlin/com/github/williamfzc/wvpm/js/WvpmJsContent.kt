@@ -5,8 +5,8 @@ import android.util.Log
 import java.io.FileNotFoundException
 
 abstract class WvpmJsContent(
-        private val path: String = "",
-        open var content: String = ""
+    private val path: String = "",
+    open var content: String = ""
 ) {
     open val TAG = "WvpmJsContent"
 
@@ -42,12 +42,12 @@ abstract class WvpmJsContentNeedFormat(path: String = "", content: String = "") 
     }
 }
 
-internal object WvpmJsPerfTiming : WvpmJsContentNormal(content = "window.performance.timing.toJSON()") {
+internal object WvpmJsPerfTiming : WvpmJsContentNormal(content = "return window.performance.timing.toJSON()") {
     override val TAG: String
         get() = "WvpmJsPerfTiming"
 }
 
-internal object WvpmJsPerfNavigation : WvpmJsContentNormal(content = "window.performance.navigation.toJSON()") {
+internal object WvpmJsPerfNavigation : WvpmJsContentNormal(content = "return window.performance.navigation.toJSON()") {
     override val TAG: String
         get() = "WvpmJsPerfNavigation"
 }
