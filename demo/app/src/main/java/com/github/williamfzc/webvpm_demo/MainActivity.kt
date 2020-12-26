@@ -47,6 +47,13 @@ class MainActivity : AppCompatActivity() {
         WvpmAPI.injectOnPageStarted(mWebview, WvpmJsFlag.FLAG_JS_PERF_TIMING, fun(resp: WvpmResponse) {
             Log.d(TAG, "get js return before page started in activity: ${resp.data}")
         })
+        WvpmAPI.registerFpsMonitor(
+            mWebview,
+            fun(resp: WvpmResponse) {
+                Log.w(TAG, "fps warning: ${resp.data}")
+            },
+            50
+        )
 
         // load url as usual
         // you will see all your functions have been executed

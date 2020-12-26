@@ -8,12 +8,10 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.williamfzc.wvpm.WvpmAPI
-import com.github.williamfzc.wvpm.WvpmJsFlag
-import com.github.williamfzc.wvpm.WvpmJsFlagBase
-import com.github.williamfzc.wvpm.WvpmResponse
+import com.github.williamfzc.wvpm.*
 import com.github.williamfzc.wvpm.js.WvpmJsContent
 import com.github.williamfzc.wvpm.js.WvpmJsManager
+import kotlinx.android.synthetic.main.activity_main.*
 
 import org.junit.Before
 
@@ -48,9 +46,7 @@ class ExampleInstrumentedTest {
 
             // custom hook
             WvpmJsManager.addJs(MyJsFlag.FLAG_NEW, MyJsContent)
-            WvpmAPI.injectOnPageFinished(targetWebview, MyJsFlag.FLAG_NEW) {
-                Log.d(TAG, "custom js: ${it.data}")
-            }
+            WvpmAPI.injectOnPageFinished(targetWebview, MyJsFlag.FLAG_NEW)
 
             WvpmAPI.injectOnPageFinished(
                 targetWebview,
@@ -70,12 +66,12 @@ class ExampleInstrumentedTest {
                 fun(resp: WvpmResponse) {
                     Log.d(TAG, "get js return before page started in activity: ${resp.data}")
                 })
-            WvpmAPI.injectOnPageStarted(
+            WvpmAPI.registerFpsMonitor(
                 targetWebview,
-                WvpmJsFlag.FLAG_JS_PERF_FPS,
                 fun(resp: WvpmResponse) {
-                    Log.d(TAG, "get fps: ${resp.data}")
-                }
+                    Log.w(TAG, "fps warning: ${resp.data}")
+                },
+                50
             )
             targetWebview.loadUrl(URL)
 
