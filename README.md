@@ -83,7 +83,7 @@ app gradle:
 
 ```bash
 dependencies {
-    implementation 'com.github.williamfzc:wvpm:0.2.0'
+    implementation 'com.github.williamfzc:wvpm:0.2.1'
 }
 ```
 
