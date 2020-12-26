@@ -57,7 +57,12 @@ Originally this tool was designed for working with apm systems. It should be ext
 
 ## full example
 
-see [demo](./demo).
+Full [demo](./demo) here.
+
+How to use these API:
+
+- kotlin: [MainActivity.kt](./demo/app/src/main/java/com/github/williamfzc/webvpm_demo/MainActivity.kt)
+- java: [JavaActivity.java](./demo/app/src/main/java/com/github/williamfzc/webvpm_demo/JavaActivity.java)
 
 ## installation
 

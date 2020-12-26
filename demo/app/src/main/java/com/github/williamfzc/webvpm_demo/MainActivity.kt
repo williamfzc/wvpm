@@ -47,6 +47,8 @@ class MainActivity : AppCompatActivity() {
         WvpmAPI.injectOnPageStarted(mWebview, WvpmJsFlag.FLAG_JS_PERF_TIMING, fun(resp: WvpmResponse) {
             Log.d(TAG, "get js return before page started in activity: ${resp.data}")
         })
+
+        // register a fps monitor
         WvpmAPI.registerFpsMonitor(
             mWebview,
             fun(resp: WvpmResponse) {
