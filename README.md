@@ -25,7 +25,25 @@ and get its return value in callback function:
 D/MainActivity: get js return after page finished in activity: {"connectEnd":1.608735286902e+12,"connectStart":1.608735286348e+12,"domComplete":1.608735311779e+12,"domContentLoadedEventEnd":1.608735295159e+12, ...
 ```
 
-Less brain fuck. You can collect/save/upload them as you wish.
+Something more complex? Register a fps monitor:
+
+```kotlin
+WvpmAPI.registerFpsMonitor(
+    mWebview,
+    fun(resp: WvpmResponse) {
+        Log.w(TAG, "fps warning: ${resp.data}")
+    },
+    50
+)
+```
+
+When your page's fps is lower than 50 (as you set), your callback will be evaluated:
+
+```text
+W/MainActivity: fps warning: {"current":48,"threshold":50}
+```
+
+Less brain fuck. You can collect/save/upload them as you wish in callback functions.
 
 Originally this tool was designed for working with apm systems. It should be extendable enough I think.
 
