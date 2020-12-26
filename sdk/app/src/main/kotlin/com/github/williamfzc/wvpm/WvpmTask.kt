@@ -12,6 +12,10 @@ class WvpmTask(
     val id = UUID.randomUUID().toString()
     private val isJsCallback = jsFlag is WvpmJsInterfaceFlag
 
+    fun cancel() {
+        WvpmTaskManager.removeTask(id)
+    }
+
     fun applyCallback(from: WvpmCallbackLocationBase, msg: String) {
         when (from) {
             WvpmCallbackLocation.FLAG_CB_LOCATION_JS -> applyCallbackJs(msg)
