@@ -1,5 +1,7 @@
 # WVPM 
 
+![jitpack-badge](https://jitpack.io/v/williamfzc/wvpm.svg?style=flat-square)
+
 A lightweight injector for webview in android, with 100% kotlin.
 
 ## TL;DR
@@ -56,7 +58,7 @@ app gradle:
 
 ```bash
 dependencies {
-    implementation 'com.github.williamfzc:wvpm:0.1.0'
+    implementation 'com.github.williamfzc:wvpm:0.2.0'
 }
 ```
 
