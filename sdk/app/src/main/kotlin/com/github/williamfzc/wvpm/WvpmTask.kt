@@ -1,5 +1,6 @@
 package com.github.williamfzc.wvpm
 
+import android.util.Log
 import java.util.*
 
 class WvpmTask(
@@ -9,6 +10,7 @@ class WvpmTask(
     val jsArgs: Array<String>? = null,
     private val autoRemove: Boolean = true
 ) {
+    private val TAG = "WvpmTask"
     val id = UUID.randomUUID().toString()
     private val isJsCallback = jsFlag is WvpmJsInterfaceFlag
 
@@ -24,20 +26,22 @@ class WvpmTask(
     }
 
     private fun applyCallbackAndroid(msg: String) {
+        Log.d(TAG, "apply calling from android")
         applyCallback(msg)
-        if (!autoRemove && !isJsCallback)
+        if (autoRemove && !isJsCallback)
             WvpmTaskManager.removeTask(id)
     }
 
     private fun applyCallbackJs(msg: String) {
+        Log.d(TAG, "apply calling from js")
         applyCallback(msg)
-        if (!autoRemove && isJsCallback)
+        if (autoRemove && isJsCallback)
             WvpmTaskManager.removeTask(id)
     }
 
     private fun applyCallback(msg: String) {
         callback?.run {
-            WvpmResponse(msg)
+            this(WvpmResponse(msg))
         }
     }
 }
@@ -45,6 +49,7 @@ class WvpmTask(
 // todo: cross processing ?
 // todo: performance ?
 internal object WvpmTaskManager {
+    private const val TAG = "WvpmTaskManager"
     private val dataMap = mutableMapOf<String, WvpmTask>()
 
     fun addTask(newTask: WvpmTask) {
@@ -56,6 +61,10 @@ internal object WvpmTaskManager {
     }
 
     fun getTask(taskId: String): WvpmTask? {
+        if (!dataMap.containsKey(taskId)) {
+            Log.w(TAG, "task $taskId not existed")
+            return null
+        }
         return dataMap[taskId]
     }
 }

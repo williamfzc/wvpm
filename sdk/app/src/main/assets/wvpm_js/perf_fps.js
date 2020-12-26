@@ -27,7 +27,11 @@
         count ++
       }
       if (count >= 60 && fps < threshold) {
-        wvpm.response(taskId, `current fps: ${fps}, threshold: ${threshold}`)
+        resp = {
+          "current": fps,
+          "threshold": threshold
+        }
+        wvpm.response(taskId, JSON.stringify(resp))
       }
       refreshLoop();
     });

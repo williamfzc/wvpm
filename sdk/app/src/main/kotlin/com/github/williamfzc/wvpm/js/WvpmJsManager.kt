@@ -4,11 +4,10 @@ import android.util.Log
 import android.webkit.ValueCallback
 import android.webkit.WebView
 import com.github.williamfzc.wvpm.*
-import com.github.williamfzc.wvpm.WvpmCallback
 
 
 object WvpmJsManager {
-    private val TAG = "WvpmJsManager"
+    private const val TAG = "WvpmJsManager"
     private var jsContentMap = mutableMapOf<WvpmJsFlagBase, WvpmJsContent>(
         WvpmJsFlag.FLAG_JS_PERF_TIMING to WvpmJsPerfTiming,
         WvpmJsFlag.FLAG_JS_PERF_NAVIGATION to WvpmJsPerfNavigation,
