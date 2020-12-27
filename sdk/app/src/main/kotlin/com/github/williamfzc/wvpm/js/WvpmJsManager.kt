@@ -1,5 +1,7 @@
 package com.github.williamfzc.wvpm.js
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.webkit.ValueCallback
 import android.webkit.WebView
@@ -41,10 +43,16 @@ object WvpmJsManager {
 
     private fun eval(wv: WebView, task: WvpmTask, targetJsRaw: String?) {
         Log.d(TAG, "eval task: ${task.id}")
-        wv.evaluateJavascript(wrapJs(task.id, targetJsRaw.orEmpty()), ValueCallback {
-            Log.d(TAG, "get response from evaluateJs callback: $it")
-            return@ValueCallback task.applyCallback(WvpmCallbackLocation.FLAG_CB_LOCATION_ANDROID, it)
-        })
+        // `evaluateJavascript` only can be executed in main thread
+        Handler(Looper.getMainLooper()).post {
+            wv.evaluateJavascript(wrapJs(task.id, targetJsRaw.orEmpty()), ValueCallback {
+                Log.d(TAG, "get response from evaluateJs callback: $it")
+                return@ValueCallback task.applyCallback(
+                    WvpmCallbackLocation.FLAG_CB_LOCATION_ANDROID,
+                    it
+                )
+            })
+        }
     }
 
     private fun wrapJs(taskId: String, originJs: String): String {
