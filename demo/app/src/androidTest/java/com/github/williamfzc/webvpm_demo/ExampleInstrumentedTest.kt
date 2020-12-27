@@ -58,12 +58,14 @@ class ExampleInstrumentedTest {
                 targetWebview,
                 WvpmJsFlag.FLAG_JS_PERF_NAVIGATION,
                 fun(resp: WvpmResponse) {
+                    Log.d(TAG, "page finished: ${resp.task.url}")
                     Log.d(TAG, "again: get js return after page finished in activity: ${resp.data}")
                 })
             WvpmAPI.injectOnPageStarted(
                 targetWebview,
                 WvpmJsFlag.FLAG_JS_PERF_TIMING,
                 fun(resp: WvpmResponse) {
+                    Log.d(TAG, "page started: ${resp.task.url}")
                     Log.d(TAG, "get js return before page started in activity: ${resp.data}")
                 })
             WvpmAPI.registerFpsMonitor(
@@ -72,6 +74,20 @@ class ExampleInstrumentedTest {
                     Log.w(TAG, "fps warning: ${resp.data}")
                 },
                 50
+            )
+            WvpmAPI.injectOnLoadResource(
+                targetWebview,
+                WvpmJsFlag.FLAG_JS_DEBUG_SAY_HI,
+                fun(resp: WvpmResponse) {
+                    Log.d(TAG, "load resource: ${resp.task.url}")
+                }
+            )
+            WvpmAPI.injectOnPageCommitVisible(
+                targetWebview,
+                WvpmJsFlag.FLAG_JS_DEBUG_SAY_HI,
+                fun(resp: WvpmResponse) {
+                    Log.d(TAG, "visible: ${resp.task.url}")
+                }
             )
             targetWebview.loadUrl(URL)
 

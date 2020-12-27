@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
                 mWebview,
                 WvpmJsFlag.FLAG_JS_PERF_TIMING,
                 fun(resp: WvpmResponse) {
+                    Log.d(TAG, "page finished: ${resp.task.url}")
                     Log.d(TAG, "get js return after page finished in activity: ${resp.data}")
                 }
         )
@@ -47,6 +48,21 @@ class MainActivity : AppCompatActivity() {
         WvpmAPI.injectOnPageStarted(mWebview, WvpmJsFlag.FLAG_JS_PERF_TIMING, fun(resp: WvpmResponse) {
             Log.d(TAG, "get js return before page started in activity: ${resp.data}")
         })
+        // on load res?
+        WvpmAPI.injectOnLoadResource(
+            mWebview,
+            WvpmJsFlag.FLAG_JS_DEBUG_SAY_HI,
+            fun(resp: WvpmResponse) {
+                Log.d(TAG, "load resource: ${resp.task.url}")
+            }
+        )
+        WvpmAPI.injectOnPageCommitVisible(
+            mWebview,
+            WvpmJsFlag.FLAG_JS_DEBUG_SAY_HI,
+            fun(resp: WvpmResponse) {
+                Log.d(TAG, "visible: ${resp.task.url}")
+            }
+        )
 
         // register a fps monitor
         WvpmAPI.registerFpsMonitor(
