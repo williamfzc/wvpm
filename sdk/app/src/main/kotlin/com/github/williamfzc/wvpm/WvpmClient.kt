@@ -66,36 +66,39 @@ internal class WvpmClient(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
+    override fun onPageCommitVisible(view: WebView?, url: String?) {
+        originClient?.apply {
+            this.onPageCommitVisible(view, url)
+        } ?: apply {
+            this.onPageCommitVisible(view, url)
+        }
+        // hooks
+        mHooks[WvpmInjectLocation.FLAG_ON_PAGE_COMMIT_VISIBLE]?.let {
+            WvpmCore.applyTask(view, url, it)
+        }
+    }
+
+    override fun onLoadResource(view: WebView?, url: String?) {
+        originClient?.apply {
+            this.onLoadResource(view, url)
+        } ?: apply {
+            this.onLoadResource(view, url)
+        }
+        // hooks
+        mHooks[WvpmInjectLocation.FLAG_ON_LOAD_RESOURCE]?.let {
+            WvpmCore.applyTask(view, url, it)
+        }
+    }
+
     // comes from doraemonkit, thanks:
     // https://github.com/didi/DoraemonKit/blob/master/Android/java/doraemonkit/src/main/java/com/didichuxing/doraemonkit/kit/h5_help/DokitWebViewClient.kt
-    @RequiresApi(Build.VERSION_CODES.N)
-    override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-        if (originClient != null) {
-            return originClient.shouldOverrideUrlLoading(view, request)
-        }
-        return super.shouldOverrideUrlLoading(view, request)
-    }
 
     override fun shouldInterceptRequest(view: WebView?, url: String?): WebResourceResponse? {
         if (originClient != null) {
             return originClient.shouldInterceptRequest(view, url)
         }
         return super.shouldInterceptRequest(view, url)
-    }
-
-    override fun onLoadResource(view: WebView?, url: String?) {
-        if (originClient != null) {
-            return originClient.onLoadResource(view, url)
-        }
-        super.onLoadResource(view, url)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.M)
-    override fun onPageCommitVisible(view: WebView?, url: String?) {
-        if (originClient != null) {
-            return originClient.onPageCommitVisible(view, url)
-        }
-        super.onPageCommitVisible(view, url)
     }
 
     override fun onTooManyRedirects(view: WebView?, cancelMsg: Message?, continueMsg: Message?) {

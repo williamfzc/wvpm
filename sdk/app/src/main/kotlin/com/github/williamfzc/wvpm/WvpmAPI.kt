@@ -48,6 +48,26 @@ public object WvpmAPI {
 
     @JvmStatic
     @JvmOverloads
+    fun injectOnLoadResource(
+        wv: WebView?,
+        targetJs: WvpmJsFlagBase,
+        callback: WvpmCallback? = null,
+        jsArgs: Array<String>? = null
+    ): WvpmTask =
+        inject(wv, targetJs, callback, WvpmInjectLocation.FLAG_ON_LOAD_RESOURCE, jsArgs)
+
+    @JvmStatic
+    @JvmOverloads
+    fun injectOnPageCommitVisible(
+        wv: WebView?,
+        targetJs: WvpmJsFlagBase,
+        callback: WvpmCallback? = null,
+        jsArgs: Array<String>? = null
+    ): WvpmTask =
+        inject(wv, targetJs, callback, WvpmInjectLocation.FLAG_ON_PAGE_COMMIT_VISIBLE, jsArgs)
+
+    @JvmStatic
+    @JvmOverloads
     fun injectOnPageFinished(
         wv: WebView?,
         targetJs: WvpmJsFlagBase,
@@ -84,7 +104,12 @@ public object WvpmAPI {
 
     @JvmStatic
     @JvmOverloads
-    fun registerFpsMonitor(wv: WebView?, callback: WvpmCallback?, fpsThreshold: Int, once: Boolean = false): WvpmTask {
+    fun registerFpsMonitor(
+        wv: WebView?,
+        callback: WvpmCallback?,
+        fpsThreshold: Int,
+        once: Boolean = false
+    ): WvpmTask {
         val task = WvpmTask(
             WvpmInjectLocation.FLAG_ON_PAGE_STARTED,
             WvpmJsInterfaceFlag.FLAG_JS_PERF_FPS,

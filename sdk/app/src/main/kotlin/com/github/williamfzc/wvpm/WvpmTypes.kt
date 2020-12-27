@@ -9,6 +9,8 @@ interface WvpmInjectLocationBase
 enum class WvpmInjectLocation : WvpmInjectLocationBase {
     FLAG_ON_PAGE_FINISHED,
     FLAG_ON_PAGE_STARTED,
+    FLAG_ON_PAGE_COMMIT_VISIBLE,
+    FLAG_ON_LOAD_RESOURCE,
     FLAG_ON_NOWHERE
 }
 
@@ -27,7 +29,7 @@ enum class WvpmJsInterfaceFlag : WvpmJsFlagBase {
 
 interface WvpmCallbackLocationBase
 
-enum class WvpmCallbackLocation: WvpmCallbackLocationBase {
+enum class WvpmCallbackLocation : WvpmCallbackLocationBase {
     FLAG_CB_LOCATION_JS,
     FLAG_CB_LOCATION_ANDROID
 }

@@ -14,6 +14,9 @@ class WvpmTask(
     val id = UUID.randomUUID().toString()
     private val isJsCallback = jsFlag is WvpmJsInterfaceFlag
 
+    // extra fields from client hooks
+    var url: String? = null
+
     fun cancel() {
         WvpmTaskManager.removeTask(id)
     }
@@ -40,8 +43,8 @@ class WvpmTask(
     }
 
     private fun applyCallback(msg: String) {
-        callback?.run {
-            this(WvpmResponse(msg))
+        callback?.let { cb ->
+            cb(WvpmResponse(msg, this))
         }
     }
 }

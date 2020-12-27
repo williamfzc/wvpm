@@ -3,7 +3,7 @@ plugins {
     id 'kotlin-android'
 }
 apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.williamfzc'
+group = 'com.github.williamfzc'
 
 android {
     compileSdkVersion 30
@@ -29,6 +29,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
 }
 
