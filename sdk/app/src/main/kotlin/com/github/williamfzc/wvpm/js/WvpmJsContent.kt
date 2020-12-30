@@ -57,6 +57,11 @@ internal object WvpmJsPerfFps : WvpmJsContentNeedFormat(path = "wvpm_js/perf_fps
         get() = "WvpmJsPerfFps"
 }
 
+internal object WvpmJsPerfRender: WvpmJsContentNeedFormat(path = "wvpm_js/perf_render_monitor.js") {
+    override val TAG: String
+        get() = "WvpmJsPerfRender"
+}
+
 internal object WvpmJsDebugSayHi : WvpmJsContentNormal(content = "console.log('hello world :)')") {
     override val TAG: String
         get() = "WvpmJsDebugSayHi"

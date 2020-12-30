@@ -15,7 +15,8 @@ object WvpmJsManager {
         WvpmJsFlag.FLAG_JS_PERF_NAVIGATION to WvpmJsPerfNavigation,
         WvpmJsFlag.FLAG_JS_DEBUG_SAY_HI to WvpmJsDebugSayHi,
         WvpmJsFlag.FLAG_JS_DEBUG_FORMAT to WvpmJsDebugFormat,
-        WvpmJsInterfaceFlag.FLAG_JS_PERF_FPS to WvpmJsPerfFps
+        WvpmJsInterfaceFlag.FLAG_JS_PERF_FPS to WvpmJsPerfFps,
+        WvpmJsInterfaceFlag.FLAG_JS_PERF_RENDER to WvpmJsPerfRender
     )
 
     fun addJs(flag: WvpmJsFlagBase, targetJsContent: WvpmJsContent) {

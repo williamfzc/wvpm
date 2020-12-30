@@ -24,7 +24,8 @@ enum class WvpmJsFlag : WvpmJsFlagBase {
 }
 
 enum class WvpmJsInterfaceFlag : WvpmJsFlagBase {
-    FLAG_JS_PERF_FPS
+    FLAG_JS_PERF_FPS,
+    FLAG_JS_PERF_RENDER
 }
 
 interface WvpmCallbackLocationBase

@@ -120,4 +120,20 @@ public object WvpmAPI {
         inject(wv, task)
         return task
     }
+
+    @JvmStatic
+    fun registerRenderMonitor(
+        wv: WebView?,
+        callback: WvpmCallback?,
+        batch: Int
+    ): WvpmTask {
+        val task = WvpmTask(
+            WvpmInjectLocation.FLAG_ON_PAGE_STARTED,
+            WvpmJsInterfaceFlag.FLAG_JS_PERF_RENDER,
+            callback,
+            arrayOf(batch.toString())
+        )
+        inject(wv, task)
+        return task
+    }
 }
