@@ -31,5 +31,4 @@ jobs:
           mkdir demo/app/libs
           cp sdk/app/build/outputs/aar/*.aar demo/app/libs/
           cd demo
-          ./gradlew assembleDebug
-
+          ./gradlew assembleDebug test

@@ -13,41 +13,33 @@ class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
     private val url = "http://www.baidu.com"
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        // wvpm will not break your custom client if you already have one
-        mWebview.webViewClient = object : WebViewClient() {
-            override fun onPageFinished(view: WebView?, url: String?) {
-                super.onPageFinished(view, url)
-                Log.d(TAG, "origin page finished!")
-            }
-        }
-
+    fun injectHooks() {
         // inject a callback
         WvpmAPI.injectOnPageFinished(
-                mWebview,
-                WvpmJsFlag.FLAG_JS_PERF_TIMING,
-                fun(resp: WvpmResponse) {
-                    Log.d(TAG, "page finished: ${resp.task.url}")
-                    Log.d(TAG, "get js return after page finished in activity: ${resp.data}")
-                }
+            mWebview,
+            WvpmJsFlag.FLAG_JS_PERF_TIMING,
+            fun(resp: WvpmResponse) {
+                Log.d(TAG, "page finished: ${resp.task.url}")
+                Log.d(TAG, "get js return after page finished in activity: ${resp.data}")
+            }
         )
         // you can inject multi callback functions
         // they will be executed one by one
         WvpmAPI.injectOnPageFinished(
-                mWebview,
-                WvpmJsFlag.FLAG_JS_PERF_NAVIGATION,
-                fun(resp: WvpmResponse) {
-                    Log.d(TAG, "again: get js return after page finished in activity: ${resp.data}")
-                }
+            mWebview,
+            WvpmJsFlag.FLAG_JS_PERF_NAVIGATION,
+            fun(resp: WvpmResponse) {
+                Log.d(TAG, "again: get js return after page finished in activity: ${resp.data}")
+            }
         )
 
         // inject onPageStarted
-        WvpmAPI.injectOnPageStarted(mWebview, WvpmJsFlag.FLAG_JS_PERF_TIMING, fun(resp: WvpmResponse) {
-            Log.d(TAG, "get js return before page started in activity: ${resp.data}")
-        })
+        WvpmAPI.injectOnPageStarted(
+            mWebview,
+            WvpmJsFlag.FLAG_JS_PERF_TIMING,
+            fun(resp: WvpmResponse) {
+                Log.d(TAG, "get js return before page started in activity: ${resp.data}")
+            })
         // on load res?
         WvpmAPI.injectOnLoadResource(
             mWebview,
@@ -72,6 +64,21 @@ class MainActivity : AppCompatActivity() {
             },
             50
         )
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // wvpm will not break your custom client if you already have one
+        mWebview.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                Log.d(TAG, "origin page finished!")
+            }
+        }
+
+        injectHooks()
 
         // load url as usual
         // you will see all your functions have been executed
