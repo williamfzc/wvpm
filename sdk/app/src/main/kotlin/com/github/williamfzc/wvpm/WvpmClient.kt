@@ -36,7 +36,9 @@ internal class WvpmClient(
                 mHooks[k] = v.toMutableList()
             }
         }
-        Log.d(TAG, "hooks: ${this.mHooks}")
+        mHooks.forEach {
+            Log.d(TAG, "hook: ${it.key} -> ${it.value}")
+        }
     }
 
     @WvpmClientHook
