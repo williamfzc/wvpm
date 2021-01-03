@@ -64,6 +64,15 @@ class MainActivity : AppCompatActivity() {
             },
             50
         )
+
+        // register a render monitor
+        WvpmAPI.registerRenderMonitor(
+            mWebview,
+            fun(resp: WvpmResponse) {
+                Log.w(TAG, "render list: ${resp.data}")
+            },
+            60
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
