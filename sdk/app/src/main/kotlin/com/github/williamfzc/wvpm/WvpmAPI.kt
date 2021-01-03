@@ -111,7 +111,7 @@ public object WvpmAPI {
         once: Boolean = false
     ): WvpmTask {
         val task = WvpmTask(
-            WvpmInjectLocation.FLAG_ON_PAGE_STARTED,
+            WvpmInjectLocation.FLAG_ON_PAGE_COMMIT_VISIBLE,
             WvpmJsInterfaceFlag.FLAG_JS_PERF_FPS,
             callback,
             arrayOf(fpsThreshold.toString()),
@@ -125,13 +125,15 @@ public object WvpmAPI {
     fun registerRenderMonitor(
         wv: WebView?,
         callback: WvpmCallback?,
-        batch: Int
+        batch: Int,
+        once: Boolean = false
     ): WvpmTask {
         val task = WvpmTask(
-            WvpmInjectLocation.FLAG_ON_PAGE_STARTED,
+            WvpmInjectLocation.FLAG_ON_PAGE_COMMIT_VISIBLE,
             WvpmJsInterfaceFlag.FLAG_JS_PERF_RENDER,
             callback,
-            arrayOf(batch.toString())
+            arrayOf(batch.toString()),
+            once
         )
         inject(wv, task)
         return task
