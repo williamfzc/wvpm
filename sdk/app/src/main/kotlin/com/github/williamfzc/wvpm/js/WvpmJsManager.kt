@@ -31,7 +31,7 @@ object WvpmJsManager {
     fun removeJs(flag: WvpmJsFlagBase) = jsContentMap.remove(flag)
 
     fun eval(wv: WebView, task: WvpmTask) {
-        Log.d(TAG, "trying to eval: ${task.jsFlag}")
+        Log.d(TAG, "trying to eval: ${task.id} ${task.jsFlag}")
         jsContentMap[task.jsFlag]?.let {
             if (!it.ready)
                 it.initObject(wv.context)
@@ -43,10 +43,11 @@ object WvpmJsManager {
     }
 
     private fun eval(wv: WebView, task: WvpmTask, targetJsRaw: String?) {
-        Log.d(TAG, "eval task: ${task.id}")
         // `evaluateJavascript` only can be executed in main thread
+        val realJs = wrapJs(task.id, targetJsRaw.orEmpty())
+        Log.d(TAG, "eval task: ${task.id}, ${task.location}, ${task.jsFlag}, real js: $realJs")
         Handler(Looper.getMainLooper()).post {
-            wv.evaluateJavascript(wrapJs(task.id, targetJsRaw.orEmpty()), ValueCallback {
+            wv.evaluateJavascript(realJs, ValueCallback {
                 Log.d(TAG, "get response from evaluateJs callback: $it")
                 return@ValueCallback task.applyCallback(
                     WvpmCallbackLocation.FLAG_CB_LOCATION_ANDROID,
@@ -57,6 +58,6 @@ object WvpmJsManager {
     }
 
     private fun wrapJs(taskId: String, originJs: String): String {
-        return "(function() { let taskId = '$taskId';\n ${originJs}})();"
+        return "(function() { console.log('task started in js: $taskId');\n let taskId = '$taskId';\n ${originJs}})();"
     }
 }
