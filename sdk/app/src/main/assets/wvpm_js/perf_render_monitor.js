@@ -1,5 +1,5 @@
 (function() {
-  const times = [];
+  let times = [];
   let threshold = %s;
 
   function refreshLoop() {
