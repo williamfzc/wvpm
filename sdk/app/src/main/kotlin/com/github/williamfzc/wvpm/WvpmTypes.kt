@@ -1,7 +1,5 @@
 package com.github.williamfzc.wvpm
 
-import java.util.*
-
 internal typealias WvpmCallback = (WvpmResponse) -> Unit
 
 interface WvpmInjectLocationBase
@@ -19,6 +17,7 @@ interface WvpmJsFlagBase
 enum class WvpmJsFlag : WvpmJsFlagBase {
     FLAG_JS_PERF_TIMING,
     FLAG_JS_PERF_NAVIGATION,
+    FLAG_JS_PERF_ENTRIES,
     FLAG_JS_DEBUG_SAY_HI,
     FLAG_JS_DEBUG_FORMAT,
 }

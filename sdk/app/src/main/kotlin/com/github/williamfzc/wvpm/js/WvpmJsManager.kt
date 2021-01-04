@@ -13,6 +13,7 @@ object WvpmJsManager {
     private var jsContentMap = mutableMapOf<WvpmJsFlagBase, WvpmJsContent>(
         WvpmJsFlag.FLAG_JS_PERF_TIMING to WvpmJsPerfTiming,
         WvpmJsFlag.FLAG_JS_PERF_NAVIGATION to WvpmJsPerfNavigation,
+        WvpmJsFlag.FLAG_JS_PERF_ENTRIES to WvpmJsPerfEntries,
         WvpmJsFlag.FLAG_JS_DEBUG_SAY_HI to WvpmJsDebugSayHi,
         WvpmJsFlag.FLAG_JS_DEBUG_FORMAT to WvpmJsDebugFormat,
         WvpmJsInterfaceFlag.FLAG_JS_PERF_FPS to WvpmJsPerfFps,
@@ -58,6 +59,12 @@ object WvpmJsManager {
     }
 
     private fun wrapJs(taskId: String, originJs: String): String {
-        return "(function() { console.log('task started in js: $taskId');\n let taskId = '$taskId';\n ${originJs}})();"
+        return """
+(function() { 
+    console.log('task started in js: $taskId');
+    let taskId = '$taskId';
+    $originJs
+})();
+""".trim()
     }
 }

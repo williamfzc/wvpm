@@ -32,6 +32,13 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "again: get js return after page finished in activity: ${resp.data}")
             }
         )
+        WvpmAPI.injectOnPageFinished(
+            mWebview,
+            WvpmJsFlag.FLAG_JS_PERF_ENTRIES,
+            fun(resp: WvpmResponse) {
+                Log.d(TAG, "get perf entries: ${resp.data}")
+            }
+        )
 
         // inject onPageStarted
         WvpmAPI.injectOnPageStarted(

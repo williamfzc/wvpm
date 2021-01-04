@@ -52,6 +52,11 @@ internal object WvpmJsPerfNavigation : WvpmJsContentNormal(content = "return win
         get() = "WvpmJsPerfNavigation"
 }
 
+internal object WvpmJsPerfEntries: WvpmJsContentNormal(content = "return window.performance.getEntries().map((it) => it.toJSON())") {
+    override val TAG: String
+        get() = "WvpmJsPerfEntries"
+}
+
 internal object WvpmJsPerfFps : WvpmJsContentNeedFormat(path = "wvpm_js/perf_fps.js") {
     override val TAG: String
         get() = "WvpmJsPerfFps"

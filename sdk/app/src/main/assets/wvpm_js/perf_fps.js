@@ -1,6 +1,5 @@
 // based on https://www.growingwiththeweb.com/2017/12/fast-simple-js-fps-counter.html
 (function() {
-  console.log("start tracing fps ...")
   const times = [];
   let fps;
   let threshold = %s;

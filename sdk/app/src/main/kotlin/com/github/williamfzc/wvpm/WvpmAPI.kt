@@ -103,6 +103,10 @@ public object WvpmAPI {
         execInside(wv, WvpmJsFlag.FLAG_JS_PERF_NAVIGATION, callback)
 
     @JvmStatic
+    fun getPerfEntries(wv: WebView?, callback: WvpmCallback?): WvpmTask =
+        execInside(wv, WvpmJsFlag.FLAG_JS_PERF_ENTRIES, callback)
+
+    @JvmStatic
     @JvmOverloads
     fun registerFpsMonitor(
         wv: WebView?,
